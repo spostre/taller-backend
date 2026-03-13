@@ -702,3 +702,66 @@ BEGIN
     DELETE FROM proveedores
     WHERE id_proveedor = p_id;
 END $$
+
+-- 11) ASESORES
+   
+-- Crear Asesor
+DROP PROCEDURE IF EXISTS crear_asesor $$
+CREATE PROCEDURE crear_asesor(
+    IN p_id_tercero INT
+)
+BEGIN
+    INSERT INTO asesores(id_tercero)
+    VALUES(p_id_tercero);
+END $$
+
+-- Ver Asesores 
+DROP PROCEDURE IF EXISTS listar_asesores $$
+CREATE PROCEDURE listar_asesores()
+BEGIN
+    SELECT a.id_asesor,
+           a.id_tercero,
+           pn.nombres,
+           pn.apellidos,
+           pn.numero_identificacion,
+           t.telefono,
+           t.email,
+           t.estado
+    FROM asesores a
+    INNER JOIN personas_naturales pn ON a.id_tercero = pn.id_tercero
+    INNER JOIN terceros t ON a.id_tercero = t.id_tercero
+    ORDER BY pn.nombres, pn.apellidos;
+END $$
+
+
+-- Buscar Asesor
+DROP PROCEDURE IF EXISTS buscar_asesor $$
+CREATE PROCEDURE buscar_asesor(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM asesores
+    WHERE id_asesor = p_id;
+END $$
+
+DROP PROCEDURE IF EXISTS editar_asesor $$
+CREATE PROCEDURE editar_asesor(
+    IN p_id INT,
+    IN p_id_tercero INT
+)
+BEGIN
+    UPDATE asesores
+    SET id_tercero = p_id_tercero
+    WHERE id_asesor = p_id;
+END $$
+
+-- Eliminar Asesor
+DROP PROCEDURE IF EXISTS eliminar_asesor $$
+CREATE PROCEDURE eliminar_asesor(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM asesores
+    WHERE id_asesor = p_id;
+END $$
