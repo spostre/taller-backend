@@ -4,7 +4,7 @@ Sistema de base de datos relacional en **MySQL 8+** para la gestión de operacio
 
 * * *
 
-###### Autores
+# Autores
 
 Santiago Centeno
 
