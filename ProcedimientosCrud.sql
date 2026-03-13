@@ -407,3 +407,164 @@ BEGIN
     SET estado = 'INACTIVO'
     WHERE id_categoria = p_id;
 END $$
+
+
+--7) PRODUCTOS
+
+-- Crear Producto
+DROP PROCEDURE IF EXISTS crear_producto $$
+CREATE PROCEDURE crear_producto(
+    IN p_codigo VARCHAR(30),
+    IN p_nombre VARCHAR(120),
+    IN p_descripcion VARCHAR(255),
+    IN p_id_categoria INT,
+    IN p_iva DECIMAL(5,2),
+    IN p_utilidad DECIMAL(7,2),
+    IN p_garantia_empresa INT,
+    IN p_garantia_proveedor INT,
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    INSERT INTO productos(
+        codigo, nombre, descripcion, id_categoria, iva_porcentaje,
+        porcentaje_utilidad, meses_garantia_empresa, meses_garantia_proveedor, estado
+    )
+    VALUES(
+        p_codigo, p_nombre, p_descripcion, p_id_categoria, p_iva,
+        p_utilidad, p_garantia_empresa, p_garantia_proveedor, p_estado
+    );
+END $$
+
+-- Ver Productos
+DROP PROCEDURE IF EXISTS listar_productos $$
+CREATE PROCEDURE listar_productos()
+BEGIN
+    SELECT p.id_producto, p.codigo, p.nombre, p.descripcion,
+           c.nombre AS categoria,
+           p.iva_porcentaje, p.porcentaje_utilidad,
+           p.meses_garantia_empresa, p.meses_garantia_proveedor, p.estado
+    FROM productos p
+    INNER JOIN categorias c ON p.id_categoria = c.id_categoria
+    ORDER BY p.nombre;
+END $$
+
+-- Buscar Producto
+DROP PROCEDURE IF EXISTS buscar_producto $$
+CREATE PROCEDURE buscar_producto(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM productos
+    WHERE id_producto = p_id;
+END $$
+
+-- Editar Producto
+DROP PROCEDURE IF EXISTS editar_producto $$
+CREATE PROCEDURE editar_producto(
+    IN p_id INT,
+    IN p_codigo VARCHAR(30),
+    IN p_nombre VARCHAR(120),
+    IN p_descripcion VARCHAR(255),
+    IN p_id_categoria INT,
+    IN p_iva DECIMAL(5,2),
+    IN p_utilidad DECIMAL(7,2),
+    IN p_garantia_empresa INT,
+    IN p_garantia_proveedor INT,
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    UPDATE productos
+    SET codigo = p_codigo,
+        nombre = p_nombre,
+        descripcion = p_descripcion,
+        id_categoria = p_id_categoria,
+        iva_porcentaje = p_iva,
+        porcentaje_utilidad = p_utilidad,
+        meses_garantia_empresa = p_garantia_empresa,
+        meses_garantia_proveedor = p_garantia_proveedor,
+        estado = p_estado
+    WHERE id_producto = p_id;
+END $$
+
+-- Eliminar Producto (Cambiar estado a INACTIVO)
+DROP PROCEDURE IF EXISTS eliminar_producto $$
+CREATE PROCEDURE eliminar_producto(
+    IN p_id INT
+)
+BEGIN
+    UPDATE productos
+    SET estado = 'INACTIVO'
+    WHERE id_producto = p_id;
+END $$
+
+
+  -- 8) POLITICAS DE DESCUENTO
+
+-- Crear Politica de Descuento
+DROP PROCEDURE IF EXISTS crear_politica_descuento $$
+CREATE PROCEDURE crear_politica_descuento(
+    IN p_nombre VARCHAR(100),
+    IN p_tipo VARCHAR(20),
+    IN p_porcentaje DECIMAL(7,2),
+    IN p_valor_fijo DECIMAL(14,2),
+    IN p_monto_minimo DECIMAL(14,2),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    INSERT INTO politicas_descuento(nombre, tipo, porcentaje, valor_fijo, monto_minimo_venta, estado)
+    VALUES(p_nombre, p_tipo, p_porcentaje, p_valor_fijo, p_monto_minimo, p_estado);
+END $$
+
+-- Ver Politicas de Descuento
+DROP PROCEDURE IF EXISTS listar_politicas_descuento $$
+CREATE PROCEDURE listar_politicas_descuento()
+BEGIN
+    SELECT *
+    FROM politicas_descuento
+    ORDER BY nombre;
+END $$
+
+-- Buscar Politica de Descuento
+DROP PROCEDURE IF EXISTS buscar_politica_descuento $$
+CREATE PROCEDURE buscar_politica_descuento(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM politicas_descuento
+    WHERE id_politica_descuento = p_id;
+END $$
+
+-- Editar Politica de Descuento
+DROP PROCEDURE IF EXISTS editar_politica_descuento $$
+CREATE PROCEDURE editar_politica_descuento(
+    IN p_id INT,
+    IN p_nombre VARCHAR(100),
+    IN p_tipo VARCHAR(20),
+    IN p_porcentaje DECIMAL(7,2),
+    IN p_valor_fijo DECIMAL(14,2),
+    IN p_monto_minimo DECIMAL(14,2),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    UPDATE politicas_descuento
+    SET nombre = p_nombre,
+        tipo = p_tipo,
+        porcentaje = p_porcentaje,
+        valor_fijo = p_valor_fijo,
+        monto_minimo_venta = p_monto_minimo,
+        estado = p_estado
+    WHERE id_politica_descuento = p_id;
+END $$
+
+-- Eliminar Politica de Descuento (Cambiar estado a INACTIVO)
+DROP PROCEDURE IF EXISTS eliminar_politica_descuento $$
+CREATE PROCEDURE eliminar_politica_descuento(
+    IN p_id INT
+)
+BEGIN
+    UPDATE politicas_descuento
+    SET estado = 'INACTIVO'
+    WHERE id_politica_descuento = p_id;
+END $$
