@@ -125,3 +125,5 @@ BEGIN
     DELETE FROM ciudades
     WHERE id_ciudad = p_id;
 END $$
+
+
