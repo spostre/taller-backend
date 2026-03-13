@@ -64,3 +64,64 @@ BEGIN
     DELETE FROM tipos_identificacion
     WHERE id_tipo_identificacion = p_id;
 END $$
+
+
+-- 2) CIUDADES
+
+-- Crear Ciudad
+
+DROP PROCEDURE IF EXISTS crear_ciudad $$
+CREATE PROCEDURE crear_ciudad(
+    IN p_nombre VARCHAR(80),
+    IN p_departamento VARCHAR(80)
+)
+BEGIN
+    INSERT INTO ciudades(nombre, departamento)
+    VALUES(p_nombre, p_departamento);
+END $$
+
+-- Ver ciudades
+
+DROP PROCEDURE IF EXISTS listar_ciudades $$
+CREATE PROCEDURE listar_ciudades()
+BEGIN
+    SELECT *
+    FROM ciudades
+    ORDER BY departamento, nombre;
+END $$
+
+DROP PROCEDURE IF EXISTS buscar_ciudad $$
+CREATE PROCEDURE buscar_ciudad(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM ciudades
+    WHERE id_ciudad = p_id;
+END $$
+
+-- Editar Ciudad
+
+DROP PROCEDURE IF EXISTS editar_ciudad $$
+CREATE PROCEDURE editar_ciudad(
+    IN p_id INT,
+    IN p_nombre VARCHAR(80),
+    IN p_departamento VARCHAR(80)
+)
+BEGIN
+    UPDATE ciudades
+    SET nombre = p_nombre,
+        departamento = p_departamento
+    WHERE id_ciudad = p_id;
+END $$
+
+
+-- Eliminar Ciudad
+DROP PROCEDURE IF EXISTS eliminar_ciudad $$
+CREATE PROCEDURE eliminar_ciudad(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM ciudades
+    WHERE id_ciudad = p_id;
+END $$
