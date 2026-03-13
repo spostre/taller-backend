@@ -273,3 +273,137 @@ BEGIN
     SET estado = 'INACTIVO'
     WHERE id_bodega = p_id;
 END $$
+
+
+--  5) MEDIOS DE PAGO
+
+-- Crear Medio de Pago
+DROP PROCEDURE IF EXISTS crear_medio_pago $$
+CREATE PROCEDURE crear_medio_pago(
+    IN p_codigo VARCHAR(20),
+    IN p_nombre VARCHAR(50),
+    IN p_descripcion VARCHAR(150),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    INSERT INTO medios_pago(codigo, nombre, descripcion, estado)
+    VALUES(p_codigo, p_nombre, p_descripcion, p_estado);
+END $$
+
+-- Ver Medios de Pago
+DROP PROCEDURE IF EXISTS listar_medios_pago $$
+CREATE PROCEDURE listar_medios_pago()
+BEGIN
+    SELECT *
+    FROM medios_pago
+    ORDER BY nombre;
+END $$
+
+-- Buscar Medio de Pago
+DROP PROCEDURE IF EXISTS buscar_medio_pago $$
+CREATE PROCEDURE buscar_medio_pago(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM medios_pago
+    WHERE id_medio_pago = p_id;
+END $$
+
+-- Editar Medio de Pago
+DROP PROCEDURE IF EXISTS editar_medio_pago $$
+CREATE PROCEDURE editar_medio_pago(
+    IN p_id INT,
+    IN p_codigo VARCHAR(20),
+    IN p_nombre VARCHAR(50),
+    IN p_descripcion VARCHAR(150),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    UPDATE medios_pago
+    SET codigo = p_codigo,
+        nombre = p_nombre,
+        descripcion = p_descripcion,
+        estado = p_estado
+    WHERE id_medio_pago = p_id;
+END $$
+
+
+-- Eliminar Medio de Pago (Cambiar estado a INACTIVO)
+DROP PROCEDURE IF EXISTS eliminar_medio_pago $$
+CREATE PROCEDURE eliminar_medio_pago(
+    IN p_id INT
+)
+BEGIN
+    UPDATE medios_pago
+    SET estado = 'INACTIVO'
+    WHERE id_medio_pago = p_id;
+END $$
+
+
+-- 6) CATEGORIAS
+
+-- Crear Categoria
+DROP PROCEDURE IF EXISTS crear_categoria $$
+CREATE PROCEDURE crear_categoria(
+    IN p_codigo VARCHAR(20),
+    IN p_nombre VARCHAR(80),
+    IN p_descripcion VARCHAR(150),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    INSERT INTO categorias(codigo, nombre, descripcion, estado)
+    VALUES(p_codigo, p_nombre, p_descripcion, p_estado);
+END $$
+
+-- Ver Categorias
+DROP PROCEDURE IF EXISTS listar_categorias $$
+CREATE PROCEDURE listar_categorias()
+BEGIN
+    SELECT *
+    FROM categorias
+    ORDER BY nombre;
+END $$
+
+--  Buscar Categoria
+
+DROP PROCEDURE IF EXISTS buscar_categoria $$
+CREATE PROCEDURE buscar_categoria(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM categorias
+    WHERE id_categoria = p_id;
+END $$
+
+-- Editar Categoria
+
+DROP PROCEDURE IF EXISTS editar_categoria $$
+CREATE PROCEDURE editar_categoria(
+    IN p_id INT,
+    IN p_codigo VARCHAR(20),
+    IN p_nombre VARCHAR(80),
+    IN p_descripcion VARCHAR(150),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    UPDATE categorias
+    SET codigo = p_codigo,
+        nombre = p_nombre,
+        descripcion = p_descripcion,
+        estado = p_estado
+    WHERE id_categoria = p_id;
+END $$
+
+-- Eliminar Categoria (Cambiar estado a INACTIVO)
+
+DROP PROCEDURE IF EXISTS eliminar_categoria $$
+CREATE PROCEDURE eliminar_categoria(
+    IN p_id INT
+)
+BEGIN
+    UPDATE categorias
+    SET estado = 'INACTIVO'
+    WHERE id_categoria = p_id;
+END $$
