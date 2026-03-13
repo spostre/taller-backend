@@ -568,3 +568,137 @@ BEGIN
     SET estado = 'INACTIVO'
     WHERE id_politica_descuento = p_id;
 END $$
+
+
+-- 9) CLIENTES
+ -- Crear Cliente   
+DROP PROCEDURE IF EXISTS crear_cliente $$
+CREATE PROCEDURE crear_cliente(
+    IN p_id_tercero INT
+)
+BEGIN
+    INSERT INTO clientes(id_tercero)
+    VALUES(p_id_tercero);
+END $$
+
+-- Ver Clientes  
+DROP PROCEDURE IF EXISTS listar_clientes $$
+CREATE PROCEDURE listar_clientes()
+BEGIN
+    SELECT c.id_cliente,
+           t.id_tercero,
+           t.tipo_tercero,
+           t.telefono,
+           t.email,
+           t.estado,
+           pn.nombres,
+           pn.apellidos,
+           pj.razon_social
+    FROM clientes c
+    INNER JOIN terceros t ON c.id_tercero = t.id_tercero
+    LEFT JOIN personas_naturales pn ON t.id_tercero = pn.id_tercero
+    LEFT JOIN personas_juridicas pj ON t.id_tercero = pj.id_tercero
+    ORDER BY c.id_cliente;
+END $$
+
+-- Buscar Cliente
+
+DROP PROCEDURE IF EXISTS buscar_cliente $$
+CREATE PROCEDURE buscar_cliente(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM clientes
+    WHERE id_cliente = p_id;
+END $$
+
+-- Editar Cliente
+
+DROP PROCEDURE IF EXISTS editar_cliente $$
+CREATE PROCEDURE editar_cliente(
+    IN p_id INT,
+    IN p_id_tercero INT
+)
+BEGIN
+    UPDATE clientes
+    SET id_tercero = p_id_tercero
+    WHERE id_cliente = p_id;
+END $$
+
+-- Eliminar Cliente
+
+DROP PROCEDURE IF EXISTS eliminar_cliente $$
+CREATE PROCEDURE eliminar_cliente(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM clientes
+    WHERE id_cliente = p_id;
+END $$
+
+
+ --  10) PROVEEDORES
+  
+  -- Crear Proveedor
+DROP PROCEDURE IF EXISTS crear_proveedor $$
+CREATE PROCEDURE crear_proveedor(
+    IN p_id_tercero INT
+)
+BEGIN
+    INSERT INTO proveedores(id_tercero)
+    VALUES(p_id_tercero);
+END $$
+
+-- Ver Proveedores
+DROP PROCEDURE IF EXISTS listar_proveedores $$
+CREATE PROCEDURE listar_proveedores()
+BEGIN
+    SELECT p.id_proveedor,
+           t.id_tercero,
+           t.tipo_tercero,
+           t.telefono,
+           t.email,
+           t.estado,
+           pn.nombres,
+           pn.apellidos,
+           pj.razon_social
+    FROM proveedores p
+    INNER JOIN terceros t ON p.id_tercero = t.id_tercero
+    LEFT JOIN personas_naturales pn ON t.id_tercero = pn.id_tercero
+    LEFT JOIN personas_juridicas pj ON t.id_tercero = pj.id_tercero
+    ORDER BY p.id_proveedor;
+END $$
+
+-- Buscar Proveedor
+DROP PROCEDURE IF EXISTS buscar_proveedor $$
+CREATE PROCEDURE buscar_proveedor(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM proveedores
+    WHERE id_proveedor = p_id;
+END $$
+
+-- Editar Proveedor
+DROP PROCEDURE IF EXISTS editar_proveedor $$
+CREATE PROCEDURE editar_proveedor(
+    IN p_id INT,
+    IN p_id_tercero INT
+)
+BEGIN
+    UPDATE proveedores
+    SET id_tercero = p_id_tercero
+    WHERE id_proveedor = p_id;
+END $$
+
+-- Eliminar Proveedor
+DROP PROCEDURE IF EXISTS eliminar_proveedor $$
+CREATE PROCEDURE eliminar_proveedor(
+    IN p_id INT
+)
+BEGIN
+    DELETE FROM proveedores
+    WHERE id_proveedor = p_id;
+END $$
