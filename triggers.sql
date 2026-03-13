@@ -210,3 +210,30 @@ BEGIN
 END $$
 
 DELIMITER ;
+
+
+--  VALIDAR PERSONA NATURAL
+
+-- Este trigger se asegura de que al insertar una persona natural, el tercero asociado exista y sea del tipo NATURAL.
+DROP TRIGGER IF EXISTS tr_validar_persona_natural_bi $$
+CREATE TRIGGER tr_validar_persona_natural_bi
+BEFORE INSERT ON personas_naturales
+FOR EACH ROW
+BEGIN
+    DECLARE v_tipo VARCHAR(20);
+
+    SELECT tipo_tercero
+    INTO v_tipo
+    FROM terceros
+    WHERE id_tercero = NEW.id_tercero;
+
+    IF v_tipo IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El tercero no existe en la tabla terceros';
+    END IF;
+
+    IF v_tipo <> 'NATURAL' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'El tercero debe ser de tipo NATURAL';
+    END IF;
+END $$
