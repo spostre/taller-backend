@@ -30,12 +30,6 @@ Kevin Pico
 * [Triggers](#triggers)
 * [Vistas](#vistas)
 * [Eventos programados](#eventos-programados)
-* [Consultas de reporte](#consultas-de-reporte)
-* [Requisitos](#requisitos)
-* [Instalación y ejecución](#instalación-y-ejecución)
-* [Ejemplos de uso](#ejemplos-de-uso)
-* [Posibles mejoras](#posibles-mejoras)
-* [Observaciones](#observaciones)
 
 * * *
 
