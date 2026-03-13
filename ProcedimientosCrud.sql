@@ -127,3 +127,149 @@ BEGIN
 END $$
 
 
+--  3) SEDES
+
+
+-- Crear Sede
+DROP PROCEDURE IF EXISTS crear_sede $$
+CREATE PROCEDURE crear_sede(
+    IN p_codigo VARCHAR(10),
+    IN p_nombre VARCHAR(100),
+    IN p_direccion VARCHAR(150),
+    IN p_id_ciudad INT,
+    IN p_telefono VARCHAR(20),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    INSERT INTO sedes(codigo, nombre, direccion, id_ciudad, telefono, estado)
+    VALUES(p_codigo, p_nombre, p_direccion, p_id_ciudad, p_telefono, p_estado);
+END $$
+
+
+-- Ver Sedes
+DROP PROCEDURE IF EXISTS listar_sedes $$
+CREATE PROCEDURE listar_sedes()
+BEGIN
+    SELECT s.id_sede, s.codigo, s.nombre, s.direccion, s.telefono, s.estado,
+           c.nombre AS ciudad, c.departamento
+    FROM sedes s
+    INNER JOIN ciudades c ON s.id_ciudad = c.id_ciudad
+    ORDER BY s.nombre;
+END $$
+
+DROP PROCEDURE IF EXISTS buscar_sede $$
+CREATE PROCEDURE buscar_sede(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM sedes
+    WHERE id_sede = p_id;
+END $$
+
+-- Editar Sede
+DROP PROCEDURE IF EXISTS editar_sede $$
+CREATE PROCEDURE editar_sede(
+    IN p_id INT,
+    IN p_codigo VARCHAR(10),
+    IN p_nombre VARCHAR(100),
+    IN p_direccion VARCHAR(150),
+    IN p_id_ciudad INT,
+    IN p_telefono VARCHAR(20),
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    UPDATE sedes
+    SET codigo = p_codigo,
+        nombre = p_nombre,
+        direccion = p_direccion,
+        id_ciudad = p_id_ciudad,
+        telefono = p_telefono,
+        estado = p_estado
+    WHERE id_sede = p_id;
+END $$
+
+
+-- Eliminar Sede (Cambiar estado a INACTIVO)
+DROP PROCEDURE IF EXISTS eliminar_sede $$
+CREATE PROCEDURE eliminar_sede(
+    IN p_id INT
+)
+BEGIN
+    UPDATE sedes
+    SET estado = 'INACTIVO'
+    WHERE id_sede = p_id;
+END $$
+
+
+-- 4) BODEGAS
+
+-- Crear Bodega
+DROP PROCEDURE IF EXISTS crear_bodega $$
+CREATE PROCEDURE crear_bodega(
+    IN p_codigo VARCHAR(10),
+    IN p_nombre VARCHAR(100),
+    IN p_descripcion VARCHAR(150),
+    IN p_id_sede INT,
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    INSERT INTO bodegas(codigo, nombre, descripcion, id_sede, estado)
+    VALUES(p_codigo, p_nombre, p_descripcion, p_id_sede, p_estado);
+END $$
+
+
+-- Ver Bodegas
+DROP PROCEDURE IF EXISTS listar_bodegas $$
+CREATE PROCEDURE listar_bodegas()
+BEGIN
+    SELECT b.id_bodega, b.codigo, b.nombre, b.descripcion, b.estado,
+           s.nombre AS sede
+    FROM bodegas b
+    INNER JOIN sedes s ON b.id_sede = s.id_sede
+    ORDER BY b.nombre;
+END $$
+
+-- Buscar Bodega
+DROP PROCEDURE IF EXISTS buscar_bodega $$
+CREATE PROCEDURE buscar_bodega(
+    IN p_id INT
+)
+BEGIN
+    SELECT *
+    FROM bodegas
+    WHERE id_bodega = p_id;
+END $$
+
+
+-- Editar Bodega
+DROP PROCEDURE IF EXISTS editar_bodega $$
+CREATE PROCEDURE editar_bodega(
+    IN p_id INT,
+    IN p_codigo VARCHAR(10),
+    IN p_nombre VARCHAR(100),
+    IN p_descripcion VARCHAR(150),
+    IN p_id_sede INT,
+    IN p_estado VARCHAR(10)
+)
+BEGIN
+    UPDATE bodegas
+    SET codigo = p_codigo,
+        nombre = p_nombre,
+        descripcion = p_descripcion,
+        id_sede = p_id_sede,
+        estado = p_estado
+    WHERE id_bodega = p_id;
+END $$
+
+
+-- Eliminar Bodega (Cambiar estado a INACTIVO)
+DROP PROCEDURE IF EXISTS eliminar_bodega $$
+CREATE PROCEDURE eliminar_bodega(
+    IN p_id INT
+)
+BEGIN
+    UPDATE bodegas
+    SET estado = 'INACTIVO'
+    WHERE id_bodega = p_id;
+END $$
